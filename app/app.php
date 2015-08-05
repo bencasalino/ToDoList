@@ -11,8 +11,11 @@
     }
 
     $app = new Silex\Application();
+    $app->register(new Silex\Provider\TwigServiceProvider(), array(
+        'twig.path' => __DIR__.'/../views'
+    ));
 
-    $app->get("/", function() {
+    $app->get("/", function() use ($app) {
 
         $output = "";
 
@@ -65,7 +68,8 @@
             </html>
         ";
 
-        return $output;
+        return $app['twig']->render('tasks.html.twig');
+
     });
 
     /* Created new /tasks page that displays our created tasks */
