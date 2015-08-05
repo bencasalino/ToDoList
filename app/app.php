@@ -2,7 +2,9 @@
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Task.php";
 
-    /* Start session, checks for task key, creates empty array if it doesn't exist */
+    // Start session, checks for task key
+    // Creates empty array if it doesn't exist
+
     session_start();
 
     if (empty($_SESSION['list_of_tasks'])) {
@@ -10,10 +12,14 @@
 
     }
 
+    // Direct app to twig.path
+
     $app = new Silex\Application();
     $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'twig.path' => __DIR__.'/../views'
     ));
+
+    // Root page, prints array if any
 
     $app->get("/", function() use ($app) {
 
@@ -21,33 +27,20 @@
 
     });
 
-    /* Created new /tasks page that displays our created tasks */
+    // Created new tasks page that displays our created tasks
 
-    $app->post("/tasks", function() {
+    $app->post("/tasks", function() use ($app) {
         $task = new Task($_POST['description']);
         $task->save();
-        return $app['twig']->render('create_task.html.twig');
+        return $app['twig']->render('create_task.html.twig', array('newtask' => $task));
 
     });
 
-    $app->post("/delete_tasks", function() {
+    // Delete contents of array, directs user to delete_tasks page
 
+    $app->post("/delete_tasks", function()  use ($app) {
         Task::deleteAll();
-
-        return "<!DOCTYPE html>
-            <html>
-            <head>
-            <title>To Do List</title>
-            <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-            </head>
-            <body>
-            <div class ='container'>
-            <h1>List Cleared!</h1>
-            <p><a href='/'>Home</a></p>
-            </div>
-            </body>
-            </html>
-        ";
+        return $app['twig']->render('delete_tasks.html.twig');
 
     });
 
