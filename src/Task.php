@@ -24,11 +24,17 @@
         {
             array_push($_SESSION['list_of_tasks'], $this);
         }
+
         /* return the list of all of our tasks    */
         static function getAll()
-
         {
             return $_SESSION['list_of_tasks'];
+        }
+
+        // reset to blank array when delete
+        static function deleteAll()
+        {
+            $_SESSION['list_of_tasks'] = array();
         }
     }
  ?>

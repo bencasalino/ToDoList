@@ -4,8 +4,8 @@
 
     /* Start session, checks for task key, creates empty array if it doesn't exist */
     session_start();
-    if (empty($_SESSION['list_of_tasks'])) {
 
+    if (empty($_SESSION['list_of_tasks'])) {
         $_SESSION['list_of_tasks'] = array();
 
     }
@@ -16,7 +16,7 @@
 
         $output = "";
 
-        $output = $output . "<!DOCTYPE html>
+        $output .= "<!DOCTYPE html>
             <html>
             <head>
             <title>To Do List</title>
@@ -26,25 +26,21 @@
             <div class='container'>
         ";
 
-        $all_tasks = Task::getAll();
-
-        if (!empty($all_tasks)) {
-            $output = $output . "
+        if (!empty(Task::getAll())) {
+            $output .= "
                 <h1> To do list </h1>
-                <p>
-                    Here are all your tasks:
-                </p>
-                ";
+                <p>Here are all your tasks:</p>
+            ";
 
             /* Loops through and displays array of all $task */
-            foreach ($all_tasks as $task) {
-                $output = $output . "<p>" . $task->getDescription() . "</p>";
+            foreach (Task::getAll() as $task) {
+                $output .= "<p>" . $task->getDescription() . "</p>";
             }
 
         }
 
         /* form for inserting description */
-        $output = $output . "
+        $output .= "
             <form action='/tasks' method='post'>
                 <label for='description'>Task Description</label>
                 <input id='description' name='description' type='text'>
@@ -54,13 +50,20 @@
 
         ";
 
-        $output = $output . "
+
+        // will clear delete tasks
+        $output .= "
+            <form action='/delete_tasks' method='post'>
+                <button type ='submit'> delete </button>
+            </form>
+
+        ";
+
+        $output .= "
+            </div>
             </body>
             </html>
         ";
-
-
-
 
         return $output;
     });
@@ -77,6 +80,7 @@
             <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
             </head>
             <body>
+            <div class ='container'>
             <h1>You created a task!</h1>
             <p>" . $task->getDescription() . "</p>
             <p><a href='/'>View your list of things to do.</a></p>
@@ -86,9 +90,27 @@
         ";
     });
 
+    $app->post("/delete_tasks", function() {
+
+        Task::deleteAll();
+
+        return "<!DOCTYPE html>
+            <html>
+            <head>
+            <title>To Do List</title>
+            <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+            </head>
+            <body>
+            <div class ='container'>
+            <h1>List Cleared!</h1>
+            <p><a href='/'>Home</a></p>
+            </div>
+            </body>
+            </html>
+        ";
+
+    });
+
     return $app;
-
-
-
 
  ?>
