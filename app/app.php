@@ -26,21 +26,8 @@
     $app->post("/tasks", function() {
         $task = new Task($_POST['description']);
         $task->save();
-        return "<!DOCTYPE html>
-            <html>
-            <head>
-            <title>To Do List</title>
-            <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-            </head>
-            <body>
-            <div class ='container'>
-            <h1>You created a task!</h1>
-            <p>" . $task->getDescription() . "</p>
-            <p><a href='/'>View your list of things to do.</a></p>
-            </div>
-            </body>
-            </html>
-        ";
+        return $app['twig']->render('create_task.html.twig');
+
     });
 
     $app->post("/delete_tasks", function() {
