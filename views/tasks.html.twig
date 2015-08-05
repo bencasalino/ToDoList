@@ -17,13 +17,19 @@
         {% endif %}
 
         <form action='/tasks' method='post'>
+            <div class="form-group">
             <label for='description'>Task Description</label>
-            <input id='description' name='description' type='text'>
+            <input id='description' name='description' type='form-control'>
 
-            <button class="btn btn-success" type='submit'>Add task</button>
+
+            <button class="btn btn-primary" type='submit'>Add task</button>
+        </div>
+
         </form>
         <form action='/delete_tasks' method='post'>
-            <button class="btn btn-success" type='submit'>Clear</button>
+            <div class="form-group">
+            <button class="btn btn-primary" type='submit'>Clear</button>
+        </div>
         </form>
     </div>
 
