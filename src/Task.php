@@ -17,5 +17,18 @@
         {
             return $this->description;
         }
+
+        /* Save Task in $_SESSION variable */
+
+        function save()
+        {
+            array_push($_SESSION['list_of_tasks'], $this);
+        }
+        /* return the list of all of our tasks    */
+        static function getAll()
+
+        {
+            return $_SESSION['list_of_tasks'];
+        }
     }
  ?>
