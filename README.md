@@ -6,7 +6,7 @@
 
 ## Description
 
-_An app that creates a to-do list, clear items from list, and display list_
+_An app that creates a to-do list, clears items from list, and displays list_
 
 ## Setup
 
